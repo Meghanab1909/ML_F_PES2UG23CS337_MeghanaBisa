@@ -12,6 +12,9 @@ def get_entropy_of_dataset(tensor: torch.Tensor):
     Returns:
         float: Entropy of the dataset.
     """
+    if not isinstance(tensor, torch.Tensor):
+        tensor = torch.tensor(tensor, dtype = torch.float32)
+
     target = tensor[:, -1]
     values, counts = torch.unique(target, return_counts = True)
     probabilities = counts.float() / counts.sum()
@@ -32,6 +35,9 @@ def get_avg_info_of_attribute(tensor: torch.Tensor, attribute: int):
     Returns:
         float: Average information of the attribute.
     """
+    if not isinstance(tensor, torch.Tensor):
+        tensor = torch.tensor(tensor, dtype = torch.float32)
+
     attribute_values = tensor[:, attribute]
     unique_vals, counts = torch.unique(attribute_values, return_counts = True)
     total_samples = tensor.shape[0]
@@ -59,6 +65,9 @@ def get_information_gain(tensor: torch.Tensor, attribute: int):
     Returns:
         float: Information gain for the attribute (rounded to 4 decimals).
     """
+    if not isinstance(tensor, torch.Tensor):
+        tensor = torch.tensor(tensor, dtype = torch.float32)
+
     dataset_entropy = get_entropy_of_dataset(tensor)
     avg_info = get_avg_info_of_attribute(tensor, attribute)
     info_gain = dataset_entropy - avg_info
@@ -82,6 +91,9 @@ def get_selected_attribute(tensor: torch.Tensor):
     Returns:
         tuple: (dict of attribute:index -> information gain, index of best attribute)
     """
+    if not isinstance(tensor, torch.Tensor):
+        tensor = torch.tensor(tensor, dtype = torch.float32)
+        
     n_attributes = tensor.shape[1] - 1
     gains = {}
 
